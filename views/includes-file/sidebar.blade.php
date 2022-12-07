@@ -1,0 +1,403 @@
+
+<body>
+<!-- start loader -->
+<div id="pageloader-overlay" class="visible incoming"><div class="loader-wrapper-outer"><div class="loader-wrapper-inner"><div class="loader"></div></div></div></div>
+<!-- end loader -->
+
+<!-- Start wrapper-->
+ <div id="wrapper">
+
+  <!--Start sidebar-wrapper-->
+   <div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
+     <div class="brand-logo">
+      <a href="{{url('admin/dashboard')}}">
+       <img src="{{ asset('assets/images/logo-icon.png')}}" class="logo-icon" alt="logo icon">
+       <h5 class="logo-text">Let's Buy</h5>
+     </a>
+   </div>
+   <div class="user-details">
+    <div class="media align-items-center user-pointer collapsed" data-toggle="collapse" data-target="#user-dropdown">
+      <div class="avatar"><img class="mr-3 side-user-img" src="{{ asset('assets/images/logo-icon.png')}}" alt="user avatar"></div>
+       <div class="media-body">
+       <h6 class="side-user-name">Letsbuy</h6>
+      </div>
+       </div>
+     <div id="user-dropdown" class="collapse">
+      <ul class="user-setting-menu">
+            <!-- <li><a href="javaScript:void();"><i class="icon-user"></i>  My Profile</a></li>
+            <li><a href="javaScript:void();"><i class="icon-settings"></i> Setting</a></li> -->
+      <li><a href="javaScript:void();" data-toggle="modal" data-target="#modal-animation-4"><i class="icon-power"></i> Logout</a></li>
+      </ul>
+     </div>
+      </div>
+       @php
+           $permission = permission();
+          
+       @endphp
+
+    <ul class="sidebar-menu">
+        <li class="sidebar-header">MAIN NAVIGATION</li>
+        @if(auth()->user()->role === 3 && isset($permission['dashboard']))
+        <li><a href="{{url('admin/dashboard')}}" class="waves-effect">
+          <i class="zmdi zmdi-view-dashboard"></i> <span>Dashboard</span>
+        </a>
+        </li>
+        <li><a href="{{url('admin/dashboard-google')}}" class="waves-effect">
+          <i class="zmdi zmdi-view-dashboard"></i> <span>Dashboard Google</span>
+        </a>
+        </li>
+        @endif
+        @if(auth()->user()->role === 1)
+        <li><a href="{{url('admin/dashboard')}}" class="waves-effect">
+                <i class="zmdi zmdi-view-dashboard"></i> <span>Dashboard</span>
+            </a>
+        </li>
+        <li><a href="{{url('admin/dashboard-google')}}" class="waves-effect">
+                <i class="zmdi zmdi-view-dashboard"></i> <span>Dashboard Google</span>
+            </a>
+        </li>
+        @endif
+        <li>
+
+            @if(auth()->user()->role === 1 || isset($permission['ModalName']) && in_array('category',$permission['ModalName']) || in_array('sub_category',$permission['ModalName']) || in_array('global_setting',$permission['ModalName'])
+            || in_array('products',$permission['ModalName']) || in_array('product_delivery_features',$permission['ModalName']) || in_array('product_reviews',$permission['ModalName']) || in_array('email_template',$permission['ModalName'])
+            || in_array('order_status',$permission['ModalName']) || in_array('attributes',$permission['ModalName']) || in_array('options',$permission['ModalName']))
+            <a href="javaScript:void();"><i class="zmdi zmdi-view-dashboard"></i> Catalog <i class="fa fa-angle-left pull-right"></i></a>
+            @endif
+
+            <ul class="sidebar-submenu">
+              @if(auth()->user()->role === 1)
+              <li><a href="{{url('admin/category')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Category</a></li>
+              <li><a href="{{url('admin/sub_category')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Sub-Category</a></li>
+              <li><a href="{{url('admin/global_settings')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Global Setting</a></li>
+              <!-- <li><a href="{{url('admin/content')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Content Management</a></li> -->
+              <li><a href="{{route('product.index')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Products</a></li>
+              <li><a href="{{route('product_delivery_index')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Product Delivery Features</a></li>
+              <li><a href="{{route('review_index')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Product Reviews</a></li>
+              <li><a href="{{url('admin/emailtemplate')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Email Templates</a></li>
+              <li><a href="{{url('admin/order_status')}}"><i class="zmdi zmdi-dot-circle-alt"></i>Order Status</a></li>
+              <li><a href="{{url('admin/attribute')}}"><i class="zmdi zmdi-dot-circle-alt"></i>Attribute</a></li>
+              <li><a href="{{url('/admin/option')}}"><i class="zmdi zmdi-dot-circle-alt"></i>Options</a></li>
+              <li><a href="{{url('/admin/filter')}}"><i class="zmdi zmdi-dot-circle-alt"></i>Filters</a></li>
+
+              @endif
+              @if(auth()->user()->role === 3 && isset($permission['category']))
+                  <li><a href="{{url('admin/category')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Category</a></li>
+              @endif
+              @if(auth()->user()->role === 3 && isset($permission['sub_category']))
+                  <li><a href="{{url('admin/sub_category')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Sub-Category</a></li>
+              @endif
+              @if(auth()->user()->role === 3 && isset($permission['global_setting']))
+                  <li><a href="{{url('admin/global_settings')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Global Setting</a></li>
+              @endif
+               <!-- <li><a href="{{url('admin/content')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Content Management</a></li> -->
+              @if(auth()->user()->role === 3 && isset($permission['products']))
+                  <li><a href="{{route('product.index')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Products</a></li>
+              @endif
+              @if(auth()->user()->role === 3 && isset($permission['product_delivery_features']))
+                  <li><a href="{{route('product_delivery_index')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Product Delivery Features</a></li>
+              @endif
+              @if(auth()->user()->role === 3 && isset($permission['product_reviews']))
+                  <li><a href="{{route('review_index')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Product Reviews</a></li>
+              @endif
+              @if(auth()->user()->role === 3 && isset($permission['email_template']))
+                  <li><a href="{{url('admin/emailtemplate')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Email Templates</a></li>
+              @endif
+              @if(auth()->user()->role === 3 && isset($permission['order_status']))
+                  <li><a href="{{url('admin/order_status')}}"><i class="zmdi zmdi-dot-circle-alt"></i>Order Status</a></li>
+              @endif
+              @if(auth()->user()->role === 3 && isset($permission['attributes']))
+                  <li><a href="{{url('admin/attribute')}}"><i class="zmdi zmdi-dot-circle-alt"></i>Attribute</a></li>
+              @endif
+              @if(auth()->user()->role === 3 && isset($permission['options']))
+              <li><a href="{{url('/admin/filter')}}"><i class="zmdi zmdi-dot-circle-alt"></i>Filters</a></li>
+              <li><a href="{{url('/admin/option')}}"><i class="zmdi zmdi-dot-circle-alt"></i>Options</a></li>
+              @endif
+
+
+
+            </ul>
+      </li>
+        <li>
+
+            @if(auth()->user()->role === 1 || isset($permission['ModalName']) && in_array('about_us',$permission['ModalName']) || in_array('privacy_policy',$permission['ModalName']) || in_array('terms_conditions',$permission['ModalName'])
+            || in_array('bank_account_payment',$permission['ModalName']) || in_array('shipping_delivery',$permission['ModalName']) || in_array('return',$permission['ModalName'])  || in_array('help',$permission['ModalName']))
+            <a href="javaScript:void();" class="waves-effect">
+              <i class="zmdi zmdi-view-dashboard"></i> <span>Content Management</span><i class="fa fa-angle-left pull-right"></i>
+            </a>
+            @endif
+
+          <ul class="sidebar-submenu">
+          @if(auth()->user()->role === 1)
+          <li><a href="{{url('/admin/aboutus/edit')}}"><i class="zmdi zmdi-dot-circle-alt"></i> About us</a></li>
+          <li><a href="{{url('/admin/privacypolicy/edit')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Privacy Policy</a></li>
+          <li><a href="{{url('/admin/terms/edit')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Terms & Conditions</a></li>
+          <li><a href="{{url('/admin/bankaccount/edit')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Bank Account </a></li>
+          <li><a href="{{url('/admin/shipping_delivery/edit')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Shipping Delivery</a></li>
+          <li><a href="{{url('/admin/returns/edit')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Returns</a></li>
+          <li><a href="{{url('/admin/help_category')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Help Categories</a></li>
+          <li><a href="{{url('/admin/help_subcategory')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Help Sub-categories</a></li>
+          <li><a href="{{url('/admin/help_article')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Help Article</a></li>
+          @endif
+
+          @if(auth()->user()->role === 3 && isset($permission['about_us']))
+          <li><a href="{{url('/admin/aboutus/edit')}}"><i class="zmdi zmdi-dot-circle-alt"></i> About us</a></li>
+          @endif
+          @if(auth()->user()->role === 3 && isset($permission['privacy_policy']))
+          <li><a href="{{url('/admin/privacypolicy/edit')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Privacy Policy</a></li>
+          @endif
+              @if(auth()->user()->role === 3 && isset($permission['terms_conditions']))
+          <li><a href="{{url('/admin/terms/edit')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Terms & Conditions</a></li>
+              @endif
+              @if(auth()->user()->role === 3 && isset($permission['bank_account_payment']))
+          <li><a href="{{url('/admin/bankaccount/edit')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Bank Account </a></li>
+              @endif
+              @if(auth()->user()->role === 3 && isset($permission['shipping_delivery']))
+          <li><a href="{{url('/admin/shipping_delivery/edit')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Shipping Delivery</a></li>
+              @endif
+              @if(auth()->user()->role === 3 && isset($permission['return']))
+              <li><a href="{{url('/admin/returns/edit')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Returns</a></li>
+              @endif
+              @if(auth()->user()->role === 3 && isset($permission['help']))
+              <li><a href="{{url('/admin/help_category')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Help Categories</a></li>
+              <li><a href="{{url('/admin/help_subcategory')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Help Sub-categories</a></li>
+              <li><a href="{{url('/admin/help_article')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Help Article</a></li>
+              @endif
+
+          </ul>
+        </li>
+        <li>
+
+            @if(auth()->user()->role === 1 || isset($permission['ModalName']) && in_array('colors',$permission['ModalName']) || in_array('top_brands',$permission['ModalName']) || in_array('hot_deals',$permission['ModalName'])
+            || in_array('offer_banners',$permission['ModalName']) || in_array('banners',$permission['ModalName']) || in_array('side_banner',$permission['ModalName']) || in_array('hot_today',$permission['ModalName']) || in_array('brands',$permission['ModalName']))
+            <a href="javaScript:void();" class="waves-effect">
+              <i class="zmdi zmdi-view-dashboard"></i> <span>Design</span><i class="fa fa-angle-left pull-right"></i>
+            </a>
+            @endif
+
+
+
+            <ul class="sidebar-submenu">
+            @if(auth()->user()->role === 1)
+            <li><a href="{{url('admin/banner')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Banners</a></li>
+            <li><a href="{{route('client.index')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Side Banner</a></li>
+            <li><a href="{{url('admin/offerbanner')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Offer Banners</a></li>
+            <li><a href="{{route('hotdeal.index')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Hot Deals</a></li>
+            <!-- <li><a href="{{route('topbrand.index')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Top Brands</a></li> -->
+            <li><a href="{{route('hot_today_list')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Hot Today</a></li>
+            <li><a href="{{route('brands_list')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Brands</a></li>
+            <li><a href="{{url('admin/color')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Colors</a></li>
+            @endif
+            @if(auth()->user()->role === 3 && isset($permission['banners']))
+            <li><a href="{{url('admin/banner')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Banners</a></li>
+            @endif
+            @if(auth()->user()->role === 3 && isset($permission['side_banner']))
+            <li><a href="{{route('client.index')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Side Banner</a></li>
+            @endif
+            @if(auth()->user()->role === 3 && isset($permission['offer_banners']))
+            <li><a href="{{url('admin/offerbanner')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Offer Banners</a></li>
+            @endif
+            @if(auth()->user()->role === 3 && isset($permission['hot_deals']))
+            <li><a href="{{route('hotdeal.index')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Hot Deals</a></li>
+            @endif
+            <!-- @if(auth()->user()->role === 3 && isset($permission['top_brands']))
+            <li><a href="{{route('topbrand.index')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Top Brands</a></li>
+            @endif -->
+            @if(auth()->user()->role === 3 && isset($permission['colors']))
+            <li><a href="{{url('admin/color')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Colors</a></li>
+            @endif
+                @if(auth()->user()->role === 3 && isset($permission['hot_today']))
+                <li><a href="{{route('hot_today_list')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Hot Today</a></li>
+                @endif
+                @if(auth()->user()->role === 3 && isset($permission['brands']))
+                <li><a href="{{route('brands_list')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Brands</a></li>
+                @endif
+              </ul>
+        </li>
+        <li>
+
+            @if(auth()->user()->role === 1 || isset($permission['ModalName']) && in_array('orders',$permission['ModalName']) || in_array('transaction',$permission['ModalName']))
+            <a href="javaScript:void();"><i class="zmdi zmdi-view-dashboard"></i> Sales <i class="fa fa-angle-left pull-right"></i></a>
+
+            @endif
+            <ul class="sidebar-submenu">
+            @if(auth()->user()->role === 1)
+            <li><a href="{{url('admin/orders')}}"><i class="zmdi zmdi-dot-circle-alt"></i>Orders</a></li>
+            <li><a href="{{url('admin/transaction')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Transactions</a></li>
+            <li><a href="{{url('admin/user/cart')}}"><i class="zmdi zmdi-dot-circle-alt"></i> User Cart</a></li>
+            @endif
+            @if(auth()->user()->role === 3 && isset($permission['orders']))
+            <li><a href="{{url('admin/orders')}}"><i class="zmdi zmdi-dot-circle-alt"></i>Orders</a></li>
+            @endif
+            @if(auth()->user()->role === 3 && isset($permission['transaction']))
+            <li><a href="{{url('admin/transaction')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Transactions</a></li>
+            <li><a href="{{url('admin/user/cart')}}"><i class="zmdi zmdi-dot-circle-alt"></i> User Cart</a></li>
+            @endif
+
+            </ul>
+        </li>
+        <li class="nav-item {{ (request()->segment(2) == 'customer') ? 'active' : '' }}">
+
+            @if(auth()->user()->role === 1 || isset($permission['ModalName']) && in_array('customer_group',$permission['ModalName']) || in_array('customer',$permission['ModalName']))
+                <a href="javaScript:void();" class="waves-effect">
+            <a href="javaScript:void();" class="waves-effect">
+              <i class="zmdi zmdi-view-dashboard"></i> <span>Customers</span><i class="fa fa-angle-left pull-right"></i>
+            </a>
+
+            @endif
+          <ul class="sidebar-submenu">
+              @if(auth()->user()->role === 1)
+              <li><a href="{{url('admin/customer')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Customers</a></li>
+              <li><a href="{{url('admin/user_group')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Customer Groups</a></li>
+              @endif
+
+              @if(auth()->user()->role === 3 && isset($permission['customer']))
+                  <li><a href="{{url('admin/customer')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Customers</a></li>
+              @endif
+              @if(auth()->user()->role === 3 && isset($permission['customer_group']))
+                  <li><a href="{{url('admin/user_group')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Customer Groups</a></li>
+              @endif
+          </ul>
+        </li>
+        <li>
+
+            @if(auth()->user()->role === 1 
+              || (isset($permission['ModalName']) 
+              && in_array('mail',$permission['ModalName'])
+              || in_array('coupon',$permission['ModalName']) 
+              || in_array('gift',$permission['ModalName'])
+              || in_array('newsletter',$permission['ModalName'])
+              ||in_array('notification',$permission['ModalName'])))
+            <a href="javaScript:void();" class="waves-effect">
+            <a href="javaScript:void();" class="waves-effect">
+            <i class="zmdi zmdi-view-dashboard"></i> <span>Marketing</span><i class="fa fa-angle-left pull-right"></i>
+            </a>
+           
+            @endif
+            <ul class="sidebar-submenu">
+            @if(auth()->user()->role === 1)
+            <li><a href="{{url('admin/coupon')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Coupans</a></li>
+            <li><a href="{{url('admin/marketing/mail')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Mails</a></li>
+            <li><a href="{{url('admin/voucher')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Gift Voucher</a></li>
+            <li><a href="{{url('admin/newsletter')}}"><i class="zmdi zmdi-dot-circle-alt"></i> News Letter</a></li>
+            <li><a href="{{url('admin/get_notification')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Notifications</a></li>
+            @endif
+            @if(auth()->user()->role === 3 && isset($permission['coupon']))
+            <li><a href="{{url('admin/coupon')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Coupans</a></li>
+            @endif
+            @if(auth()->user()->role === 3 && isset($permission['mail']))
+            <li><a href="{{url('admin/marketing/mail')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Mails</a></li>
+            @endif
+            @if(auth()->user()->role === 3 && isset($permission['gift']))
+            <li><a href="{{url('admin/voucher')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Gift Voucher</a></li>
+            @endif
+            @if(auth()->user()->role === 3 && isset($permission['newsletter']))
+            <li><a href="{{url('admin/newsletter')}}"><i class="zmdi zmdi-dot-circle-alt"></i> News Letter</a></li>
+            @endif
+            @if(auth()->user()->role === 3 && isset($permission['notification']))
+            <li><a href="{{url('admin/get_notification')}}"><i class="zmdi zmdi-dot-circle-alt"></i> Notification</a></li>
+            @endif
+            </ul>
+        </li>
+
+        <li class="nav-item {{ (request()->segment(2) == 'user_reports') ? 'active' : '' }}">
+
+            @if(auth()->user()->role === 1 || isset($permission['ModalName']) && in_array('user_report',$permission['ModalName']) || in_array('order_report',$permission['ModalName']))
+                <a href="javaScript:void();" class="waves-effect">
+            <a href="javaScript:void();" class="waves-effect">
+              <i class="zmdi zmdi-view-dashboard"></i> <span>Reports</span><i class="fa fa-angle-left pull-right"></i>
+            </a>
+
+            @endif
+          <ul class="sidebar-submenu">
+              @if(auth()->user()->role === 1)
+              <li>
+                <a href="{{route('user_reports.listUserReport')}}">
+                  <i class="zmdi zmdi-dot-circle-alt"></i>User Reports
+                </a>
+              </li>
+              <li>
+                <a href="{{route('order_reports.listOrderReports')}}">
+                  <i class="zmdi zmdi-dot-circle-alt"></i>Order Reports
+                </a>
+              </li>
+              @endif
+
+              @if(auth()->user()->role === 3 && isset($permission['user_report']))
+              <li>
+                <a href="{{route('user_reports.listUserReport')}}">
+                  <i class="zmdi zmdi-dot-circle-alt"></i>User Reports
+                </a>
+              </li>
+            @endif
+
+            @if(auth()->user()->role === 3 && isset($permission['order_report']))
+            <li>
+                <a href="{{route('order_reports.listOrderReports')}}">
+                  <i class="zmdi zmdi-dot-circle-alt"></i>Order Reports
+                </a>
+              </li>
+            @endif
+          </ul>
+        </li>
+
+        <li>
+            @if(auth()->user()->role === 1)
+           <a href="javaScript:void();" class="waves-effect">
+               <i class="zmdi zmdi-view-dashboard"></i> <span>Sub Admin</span><i class="fa fa-angle-left pull-right"></i>
+           </a>
+            <ul class="sidebar-submenu">
+            <li><a href="{{route('sub_admin_management_list')}}"><i class="zmdi zmdi-dot-circle-alt"></i>List</a></li>
+            </ul>
+            @endif
+             @if(auth()->user()->role === 3 && isset($permission['subadmin']))
+             <a href="javaScript:void();" class="waves-effect">
+               <i class="zmdi zmdi-view-dashboard"></i> <span>Sub Admin</span><i class="fa fa-angle-left pull-right"></i>
+           </a>
+            <ul class="sidebar-submenu">
+            <li><a href="{{route('sub_admin_management_list')}}"><i class="zmdi zmdi-dot-circle-alt"></i>List</a></li>
+            </ul>
+            @endif
+        </li>
+    </ul>
+ </div>
+   <!--End sidebar-wrapper-->
+
+<!--Start topbar header-->
+<header class="topbar-nav">
+ <nav id="header-setting" class="navbar navbar-expand fixed-top">
+  <ul class="navbar-nav mr-auto align-items-center">
+    <li class="nav-item">
+      <a class="nav-link toggle-menu" href="javascript:void();">
+       <i class="icon-menu menu-icon"></i>
+     </a>
+    </li>
+    <!-- <li class="nav-item">
+      <form class="search-bar">
+        <input type="text" class="form-control" placeholder="Enter keywords">
+         <a href="javascript:void();"><i class="icon-magnifier"></i></a>
+      </form>
+    </li> -->
+  </ul>
+</nav>
+</header>
+
+<!--End topbar header-->
+<div class="modal fade" id="modal-animation-4">
+  <div class="modal-dialog">
+    <div class="modal-content animated slideInUp">
+      <div class="modal-body text-center">
+                        <figure><img src="{{ asset('assets/images/logout.png')}}"></figure>
+                        <p>Are You sure You Want To Logout</p>
+                      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+        <button type="button" class="btn btn-success" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();"><i class="dropdown-item-icon icon-power text-primary"></i> Logout</button>
+                                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+      </div>
+    </div>
+  </div>
+</div>

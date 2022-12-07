@@ -1,0 +1,142 @@
+@extends('layouts.front-app')
+
+@section('content')
+
+        <section class="next-dash">
+          <div class="container">
+              <!-- ----inner-dashboard----- -->
+              <div class="inner-dash-bord">
+                <div class="dashboard-left">
+                  <nav class="navbar navbar-expand-lg">
+                    <!-- Collapse button -->
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar-menu" aria-controls="sidebar-menu" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <!-- Collapsible content -->
+                    <div class="collapse navbar-collapse" id="sidebar-menu">
+                      <ul class="navbar-nav">
+                        @if(!empty(Auth::id()))
+                        <li class="nav-item">
+                          <a class="nav-link" href="{{url('myaccount')}}">
+                            <figure><img src="{{asset('assets/front-end/images/my-account.svg')}}"></figure>
+                            <h6>My Account</h6>
+                          </a>
+                        </li>
+                        <li class="nav-item active">
+                          <a class="nav-link" href="{{url('myorder')}}">
+                            <figure><img src="{{asset('assets/front-end/images/my-orders.svg')}}"></figure>
+                            <h6>My Orders</h6>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{{url('myaddress')}}">
+                            <figure><img src="{{asset('assets/front-end/images/my-address.svg')}}"></figure>
+                            <h6>My Address</h6>
+                          </a>
+                        </li>
+                        @endif
+                        <li class="nav-item">
+                          <a class="nav-link" href="{{url('wishlist')}}">
+                            <figure><img src="{{asset('assets/front-end/images/my-wishlist.svg')}}"></figure>
+                            <h6>My Wishlist</h6>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </nav>
+                </div>
+                <div class="dashboard-right">
+                    <div class="dash-titlenav">
+                      <nav aria-label="breadcrumb">
+                        <ul class="breadcrumb">
+                          <li class="breadcrumb-item"><a href="#">My Address</a></li>
+                        </ul>
+                      </nav>
+                    </div>
+                    <div class="dash-credit-sec">
+                              <div class="default-filder-ck w-flex">
+                                 <h4>All Orders</h4>
+                                 <div class="form-group">
+                                    <label>Status</label>
+                                    <select class="form-control">
+                                      <option selected="">All Orders</option>
+                                      <option value="1">All Orders</option>
+                                      <option value="2">All Orders</option>
+                                    </select>
+                                  </div>
+                              </div>
+                              <!-- ---table--- -->
+                              <div class="table-responsive">
+                                <table class="table gfg">
+                                  <thead>
+                                    <tr>
+                                      <th>Order ID</th>
+                                      <th>Placed Date</th>
+                                      <th>Price</th>
+                                      <th>Orders Status </th>
+                                      <th>Delivery Date</th>
+                                      <th></th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                  @foreach($myorders as $record)
+                                    <tr>
+                                      <td># {{$record->id}}</td>
+                                      <td>{{$record->created_at}}</td>
+                                      <td>SR {{$record->price}}</td>
+                                      <td>{{$record->statusname}}</td>
+                                      <td></td>
+                                      <td class="du-l-btn"><a href="{{route('order_track',base64_encode($record->id))}}" class="btn btn-black">View</a>
+                                      @if($record->status == 6)
+                                      <button class="btn btn-black" disabled>Cancelled</button>
+                                      @else
+                                      <a data-toggle="modal" data-target="#log-out-modal" class="btn btn-black">Cancel</a>
+                                      @endif
+                                      </td>
+                                    </tr>
+                                    <!-- order cancel -->
+                                  <div class="modal login-modal-box fade" id="log-out-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                                    <div class="modal-dialog modal-dialog-centered">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                          <form action="{{route('order_cancel',base64_encode($record->id))}}" id="order_cancel" method="post">
+                                          @csrf
+                                          <a href="javascript:;" class="modal-logo">
+                                            <img src="{{asset('assets/front-end/images/logo.svg')}}">
+                                          </a>
+                                            <textarea id="cancel_reason" name="cancel_reason" placeholder="Please Enter Cancellation Reason" rows="4" cols="40">
+                                            At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
+                                            </textarea>
+                                          <div class="log-out-form">
+                                            <div class="d-flex">
+                                              <button type="button" data-dismiss="modal" class="btn btn-black">No</button>
+                                              <button type="submit" id="cancelorder" class="btn btn-black">Yes</button>
+                                            </div>
+                                          </div>
+                                          </form>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                  <!-- order cancel -->
+                                   @endforeach
+                                  </tbody>
+                                </table>
+                              </div>
+                              <!-- ---table--- -->
+                    </div>
+                </div>
+              </div>
+              <!-- ----inner-dashboard----- -->
+          </div>
+        </section>
+
+
+@endsection
